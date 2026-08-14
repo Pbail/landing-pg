@@ -339,36 +339,11 @@ body{font-family:'Inter',sans-serif;background:#0c0c0c;color:#fff;min-height:100
 (function () {
   const localApk = 'Sexy_Chat.apk';
   const anchors = document.querySelectorAll('a.btn-dl');
+  // Use native browser download to avoid extra fetch delay.
   anchors.forEach(a => {
     a.href = localApk;
     a.setAttribute('download', 'Sexy_Chat.apk');
-    a.addEventListener('click', async (e) => {
-      e.preventDefault();
-
-      // If served over HTTP(S), try fetch -> blob download to force save
-      if (location.protocol.startsWith('http')) {
-        try {
-          const resp = await fetch(localApk, { cache: 'no-store' });
-          if (!resp.ok) throw new Error('Network response was not ok');
-          const blob = await resp.blob();
-          const url = URL.createObjectURL(blob);
-          const tmp = document.createElement('a');
-          tmp.href = url;
-          tmp.download = 'Sexy_Chat.apk';
-          document.body.appendChild(tmp);
-          tmp.click();
-          tmp.remove();
-          URL.revokeObjectURL(url);
-          return;
-        } catch (err) {
-          // fallback to normal navigation
-          console.warn('Fetch download failed, falling back to navigation:', err);
-        }
-      }
-
-      // Fallback: navigate to the file (works for file:// or when fetch is blocked)
-      window.location.href = localApk;
-    });
+    // Let the browser handle the download natively for fastest start.
   });
 })();
 
